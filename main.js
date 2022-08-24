@@ -1,4 +1,4 @@
-$('#b1').click(function(){
+/*$('#b1').click(function(){
     console.log("clicked");
 	$.ajax({
 		type: "GET",
@@ -13,4 +13,36 @@ $('#b1').click(function(){
             console.log(data);
 		}
 	});
+});*/
+
+
+/*$( document ).ready(function() {
+    $.ajax({
+		type: "GET",
+		url: "http://apiv2.oroszi.net/elvira/maps",
+		dataType: "json",
+		data: {
+			train_number: "5568"
+		},
+		success: function( data ){
+			alert( data.delay );
+            console.log(data);
+		}
+	});
+});*/
+
+$( document ).ready(function() {
+    for (let i = 1; i <= 40000; i++) {
+        $.ajax({
+            type: "GET",
+            url: "http://apiv2.oroszi.net/elvira/maps",
+            dataType: "json",
+            data:{
+                train_number: "55"+i
+            },
+        success: function(data){
+            console.log(data[i].train_number+"\n"+data[i].delay);
+        }
+        })
+    }
 });

@@ -1,4 +1,5 @@
 /*$('#b1').click(function(){
+>>>>>>> main
     console.log("clicked");
 	$.ajax({
 		type: "GET",
@@ -13,7 +14,8 @@
             console.log(data);
 		}
 	});
-});*/
+
+});
 
 
 /*$( document ).ready(function() {

@@ -1,7 +1,3 @@
-
-
-
-
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
@@ -20,7 +16,7 @@ con.connect(function(err) {
 	});
 });
 
-/*function delays() {
+function delays() {
 	for (let i = 1; i <= 40000; i++) {
 		$.ajax({
 			type: "GET",
@@ -34,4 +30,4 @@ con.connect(function(err) {
 			}
 		})
 	}
-}*/
+}

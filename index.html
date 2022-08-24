@@ -3,6 +3,7 @@
 <head>
 <title>Mav proba</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="main.js"></script>
 </head>
 <body>
 
@@ -13,22 +14,7 @@
 </body>
 <script>
 
-$('#b1').click(function(){
-    console.log("clicked");
-	$.ajax({
-		type: "GET",
-		url: "http://apiv2.oroszi.net/elvira",
-		dataType: "json",
-		data: {
-			from: "budapest",
-			to: "miskolc"
-		},
-		success: function( data ){
-			alert( data.route );
-            console.log(data);
-		}
-	});
-});
+
 
 
 

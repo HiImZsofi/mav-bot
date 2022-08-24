@@ -1,38 +1,39 @@
-$('#b1').click(function(){
-    console.log("clicked");
-	$.ajax({
-		type: "GET",
-		url: "http://apiv2.oroszi.net/elvira",
-		dataType: "json",
-		data: {
-			from: "budapest",
-			to: "miskolc"
-		},
-		success: function( data ){
-			alert( data.route );
-            console.log(data);
-		}
-	});
 
+
+/*function delays() {
+	for (let i = 1; i <= 40000; i++) {
+		$.ajax({
+			type: "GET",
+			url: "http://apiv2.oroszi.net/elvira/maps",
+			dataType: "json",
+			data: {},
+			success: function (data) {
+				if (data[i] !== undefined) {
+					console.log(data[i].train_number + "\n" + data[i].delay);
+				}
+			}
+		})
+	}
+}*/
+
+
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "127.0.0.1",
+  user: "root",
+  password: "",
+  port: 3306
 });
 
-function delays() {
-		for (let i = 1; i <= 40000; i++) {
-	        $.ajax({
-	            type: "GET",
-	            url: "http://apiv2.oroszi.net/elvira/maps",
-	            dataType: "json",
-	            data:{
-	            },
-	        success: function(data){
-				if(data[i]!==undefined){ 
-					console.log(data[i].train_number+"\n"+data[i].delay);
-				}
-				}
-	        })
-	    }
-	}
-
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  con.query("CREATE DATABASE MavDelays", function (err, result) {
+    if (err) throw err;
+    console.log("Database created");
+  });
+});
 
 // try{
 // $( document ).ready(function() {
@@ -54,5 +55,3 @@ function delays() {
 // catch{
 
 // }
-
-

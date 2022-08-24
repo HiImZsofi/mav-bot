@@ -1,5 +1,4 @@
-/*$('#b1').click(function(){
->>>>>>> main
+$('#b1').click(function(){
     console.log("clicked");
 	$.ajax({
 		type: "GET",
@@ -16,22 +15,6 @@
 	});
 
 });
-
-
-/*$( document ).ready(function() {
-    $.ajax({
-		type: "GET",
-		url: "http://apiv2.oroszi.net/elvira/maps",
-		dataType: "json",
-		data: {
-			train_number: "5568"
-		},
-		success: function( data ){
-			alert( data.delay );
-            console.log(data);
-		}
-	});
-});*/
 
 $( document ).ready(function() {
     for (let i = 1; i <= 40000; i++) {

@@ -1,5 +1,13 @@
 {
+  
+    "type": "module",
+
   "dependencies": {
-    "mysql": "^2.18.1"
+    "jquery": "^3.6.0",
+    "mysql": "^2.18.1",
+    "node-fetch": "^3.2.10"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.14"
   }
 }

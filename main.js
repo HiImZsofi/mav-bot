@@ -1,4 +1,9 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+import fetch from "node-fetch";
+const { get, type } = require('jquery');
 var mysql = require('mysql');
+
 
 var con = mysql.createConnection({
 	host: "127.0.0.1",
@@ -7,27 +12,14 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  con.query("CREATE DATABASE MavDelays", function (err, result) {
-	  if (err) throw err;
-	  console.log("Database created");
-	});
-});
+async function fetchData(){
+	let obj;
 
-function delays() {
-	for (let i = 1; i <= 40000; i++) {
-		$.ajax({
-			type: "GET",
-			url: "http://apiv2.oroszi.net/elvira/maps",
-			dataType: "json",
-			data: {},
-			success: function (data) {
-				if (data[i] !== undefined) {
-					console.log(data[i].train_number + "\n" + data[i].delay);
-				}
-			}
-		})
-	}
+	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
+
+	obj = await res.json();
+  
+	console.log(obj[1].train_number);
 }
+
+fetchData();

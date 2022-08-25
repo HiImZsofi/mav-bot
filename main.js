@@ -12,9 +12,15 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-fetch('http://apiv2.oroszi.net/elvira/maps')
-  .then(response => response.json())
-  .then(commits => console.log(commits[1].train_number));
+async function fetchData(){
+	let obj;
+
+	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
+
+	obj = await res.json();
+  
+	console.log(obj[1].train_number);
+}
 
 function delays() {
 	for (let i = 1; i < 90000; i++) {
@@ -34,3 +40,5 @@ function delays() {
 	}
 	console.log(train);
 }
+
+fetchData();

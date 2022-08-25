@@ -7,14 +7,10 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  con.query("CREATE DATABASE MavDelays", function (err, result) {
-	  if (err) throw err;
-	  console.log("Database created");
-	});
-});
+async function insert(sql, data) {
+	// for (let i=0; i<data.length; i++)
+	  await client.insert(sql, data);
+  }
 
 function delays() {
 	var delay_list= [];
@@ -28,6 +24,8 @@ function delays() {
 				if (data[i] !== undefined) {
 					console.log(data[i].train_number + "\n" + data[i].delay);
 					//delay_list_final.push(data[i].delay);
+					// insert(con, data[i].delay);
+					
 				}
 			}
 		})

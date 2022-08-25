@@ -22,23 +22,4 @@ async function fetchData(){
 	console.log(obj[1].train_number);
 }
 
-function delays() {
-	for (let i = 1; i < 90000; i++) {
-		$.ajax({
-			type: "GET",
-			url: "http://apiv2.oroszi.net/elvira/maps",
-			dataType: "json",
-			data: {
-				train_number: 5515503,
-			},
-			success: function (data) {
-				if (data[i] !== undefined) {
-					console.log(data[i].train_number + "\n" + data[i].delay);
-				}
-			}
-		})
-	}
-	console.log(train);
-}
-
 fetchData();

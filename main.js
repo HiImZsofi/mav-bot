@@ -17,6 +17,7 @@ con.connect(function(err) {
 });
 
 function delays() {
+	var delay_list = [];
 	for (let i = 1; i <= 40000; i++) {
 		$.ajax({
 			type: "GET",
@@ -26,6 +27,7 @@ function delays() {
 			success: function (data) {
 				if (data[i] !== undefined) {
 					console.log(data[i].train_number + "\n" + data[i].delay);
+					delay_list.push(data[i].delay);
 				}
 			}
 		})

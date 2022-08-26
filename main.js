@@ -12,14 +12,52 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-async function fetchData(){
-	let obj;
+let trains;
 
+async function fetchData(){
+	
 	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
 
-	obj = await res.json();
-  
-	console.log(obj[1].train_number);
+	trains = await res.json();
+
+	console.log(trains[1].train_number);
+}
+
+function tableEmtpyCheck(){
+	var empty=true;
+	con.connect(function(err) {  
+		if (err) throw err;  
+		var sql = "SELECT COUNT(*) FROM mavdelays.delays";  
+		con.query(sql, function (err, result) {  
+		if (err) throw err;  
+		empty=false; 
+		})
+	})
+	return empty;
+}
+
+function sendToDatabase(){
+	if(tableEmtpyCheck()){ 
+		con.connect(function(err) {  
+			if (err) throw err;  
+			console.log("Connected!"); 
+	
+			for (let i = 0; i < trains.length; i++) {
+			var sql = "INSERT INTO mavdelays.delays (trainID, delay) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+")";  
+			con.query(sql, function (err, result) {  
+			if (err) throw err;  
+			console.log("1 record inserted");  
+			}); 
+			}
+			}	
+		)
+	}else{
+		//update
+	}	
 }
 
 fetchData();
+setInterval(() => {
+	sendToDatabase();
+},10000);
+// sendToDatabase();

@@ -23,6 +23,10 @@ async function fetchData(){
 
 //Inserts into the database 
 function sendToDatabase(){
+	con.connect(function(err) {
+		if (err) throw err;
+		console.log("Connected!");
+	});
 	for (let i = 0; i < trains.length; i++) {
 	var sql = "INSERT INTO mavdelays.delays (trainID, delay) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+")";  
 	con.query(sql, function (err, result) {  

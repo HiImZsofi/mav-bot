@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+const { get, type } = require('jquery');
 var mysql = require('mysql');
 
 var con = mysql.createConnection({

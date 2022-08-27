@@ -28,7 +28,7 @@ function sendToDatabase(){
 		console.log("Connected!");
 	});
 	for (let i = 0; i < trains.length; i++) {
-	var sql = "INSERT INTO mavdelays.delays (trainID, delay) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+")";  
+	var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
 	con.query(sql, function (err, result) {  
 	if (err) throw err;  
 	console.log("1 record inserted");  

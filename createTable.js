@@ -10,7 +10,7 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-var sql = "CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT)";
+var sql = "CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT, time TIMESTAMP)";
 con.query(sql, function(err, result){
 	if(err) throw err;
 	console.log("Table created");

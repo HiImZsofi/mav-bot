@@ -36,6 +36,11 @@ function sendToDatabase(){
 	}
 }
 
+//todo empty check
+//todo update with new check and update all
+
+//todo if emptycheck doesn't work -> update.js
+
 //Call the required functions
 fetchData();
 setInterval(() => {

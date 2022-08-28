@@ -19,24 +19,26 @@ let trains;
 async function fetchData(){
 	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
 	trains = await res.json();
-}
 
-//Inserts into the database 
-function sendToDatabase(){
-	var checkExists; //true by default
 	con.connect(function(err) {
 		if (err) throw err;
 		console.log("Connected!");
 	});
-	
+}
+
+//todo fix async issue
+//Inserts into the database 
+function sendToDatabase(){
+	var checkExists; //true by default
+
 	for (let i = 0; i < trains.length; i++) {
-		var sqlSelect = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"')"
-		con.query(sqlSelect, function(err, result) {
+		var sqlSelect = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer"
+		con.query(sqlSelect, function(err, result, fields) {
 			if (err) throw err;
-			checkExists = result;
+			checkExists = result[0].answer;
 		})
 
-		if(checkExists==0){
+		if(checkExists!=0){
 			var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
 			con.query(sql, function (err, result) {  
 				if (err) throw err;  
@@ -47,11 +49,6 @@ function sendToDatabase(){
 		}
 		}
 }
-
-//todo empty check
-//todo update with new check and update all
-
-//todo if emptycheck doesn't work -> update.js
 
 //Call the required functions
 fetchData();

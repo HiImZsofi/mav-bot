@@ -23,17 +23,29 @@ async function fetchData(){
 
 //Inserts into the database 
 function sendToDatabase(){
+	var checkExists; //true by default
 	con.connect(function(err) {
 		if (err) throw err;
 		console.log("Connected!");
 	});
+	
 	for (let i = 0; i < trains.length; i++) {
-	var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
-	con.query(sql, function (err, result) {  
-	if (err) throw err;  
-	console.log("1 record inserted");  
-	}); 
-	}
+		var sqlSelect = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"')"
+		con.query(sqlSelect, function(err, result) {
+			if (err) throw err;
+			checkExists = result;
+		})
+
+		if(checkExists==0){
+			var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
+			con.query(sql, function (err, result) {  
+				if (err) throw err;  
+				console.log("1 record inserted");  
+			}); 
+		}else{
+			
+		}
+		}
 }
 
 //todo empty check

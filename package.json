@@ -1,7 +1,5 @@
 {
-  
-    "type": "module",
-
+  "type": "module",
   "dependencies": {
     "jquery": "^3.6.0",
     "mysql": "^2.18.1",

@@ -1,4 +1,5 @@
 //Imports
+import { transcode } from 'buffer';
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 import fetch from "node-fetch";
@@ -27,6 +28,7 @@ async function fetchData(){
 }
 
 //todo fix async issue
+//todo fix if else logic
 //Inserts into the database 
 function sendToDatabase(){
 	var checkExists; //true by default
@@ -38,14 +40,19 @@ function sendToDatabase(){
 			checkExists = result[0].answer;
 		})
 
-		if(checkExists!=0){
+		if(checkExists==0){
 			var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
 			con.query(sql, function (err, result) {  
 				if (err) throw err;  
 				console.log("1 record inserted");  
 			}); 
 		}else{
-			
+			//todo fix event_time not sending the proper info
+			var updateSQL= "UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = '"+toString(trains[i].event_time).replace('.','-')+"' WHERE trainID = '"+trains[i].train_number+"';";
+			con.query(updateSQL, function(err){
+				if(err) throw err;
+				console.log("1 record updated");
+			})
 		}
 		}
 }

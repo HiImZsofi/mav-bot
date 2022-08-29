@@ -46,7 +46,7 @@ function sendToDatabase(){
 				if (err) throw err;  
 				console.log("1 record inserted");  
 			}); 
-		}else{
+		}else if(checkExists==1){
 			//todo fix event_time not sending the proper info
 			var updateSQL= "UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = '"+toString(trains[i].event_time).replace('.','-')+"' WHERE trainID = '"+trains[i].train_number+"';";
 			con.query(updateSQL, function(err){

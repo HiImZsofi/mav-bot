@@ -27,11 +27,9 @@ async function fetchData(){
 	});
 }
 
-//todo fix async issue
-//todo fix if else logic
 //Inserts into the database 
 function sendToDatabase(){
-	var checkExists; //true by default
+	var checkExists;
 
 	for (let i = 0; i < trains.length; i++) {
 		var sqlSelect = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer"
@@ -39,7 +37,7 @@ function sendToDatabase(){
 			if (err) throw err;
 			checkExists = result[0].answer;
 		})
-		
+
 		setTimeout(() => {
 			if(checkExists==0){
 				var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
@@ -64,4 +62,3 @@ fetchData();
 setInterval(() => {
 	sendToDatabase();
 },10000);
-// sendToDatabase();

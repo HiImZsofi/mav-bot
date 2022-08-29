@@ -32,7 +32,7 @@ function sendToDatabase(){
 
 	for (let i = 0; i < trains.length; i++) {
 		var sqlSelect = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer"
-		con.query(sqlSelect, function(err, result, fields) {
+		con.query(sqlSelect, function(err, result) {
 			if (err) throw err;
 			checkExists = result[0].answer;
 		})
@@ -40,7 +40,7 @@ function sendToDatabase(){
 		setTimeout(() => {
 			if(checkExists==0){
 				var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
-				con.query(sql, function (err, result) {  
+				con.query(sql, function (err) {  
 					if (err) throw err;  
 					console.log("1 record inserted");  
 				}); 

@@ -45,6 +45,7 @@ function sendToDatabase(){
 					console.log("1 record inserted");  
 				}); 
 			}else if(checkExists==1){
+				//todo update only if the delay has changed 
 				var updateSQL= "UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
 				con.query(updateSQL, function(err){
 					if(err) throw err;

@@ -16,5 +16,6 @@ con.connect(function(err) {
     con.query("CREATE DATABASE MavDelays", function (err, result) {
         if (err) throw err;
         console.log("Database created");
+        process.exit();
       });
   });

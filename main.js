@@ -45,7 +45,7 @@ function delayQuery(){
 	return new Promise((resolve, rejects)=>{
 		con.query(sqlDelayDifference, function(err, result){
 			if(err) return rejects(err)
-			if (result[0].delay !== undefined) {
+			if (result[0].delay !== undefined) { //!the error gets thrown here
 				setTimeout(() => {
 					return resolve(result[0].delay);
 				}, 200);
@@ -95,8 +95,6 @@ async function sendToDatabase(){
 			if(checkExists == 0){
 				console.log(await insertQuery());
 			}else if(checkExists == 1){
-				//todo make the program wait to get the delayInDB value				
-				//!settimeout stuck in loop, so delayindb doesn't update
 			delayInDB = await delayQuery();
 				if(delayInDB !== trains[i].delay){
 					if(delayInDB !== undefined || delayInDB === -1){ 

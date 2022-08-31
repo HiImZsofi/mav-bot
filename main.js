@@ -1,7 +1,9 @@
 //Imports
+import { rejects } from 'assert';
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 import fetch from "node-fetch";
+import { resolve } from 'path';
 const { get, type } = require('jquery');
 var mysql = require('mysql');
 
@@ -26,33 +28,85 @@ async function fetchData(){
 	});
 }
 
-//Inserts into the database 
-function sendToDatabase(){
-	var checkExists;
-
-	for (let i = 0; i < trains.length; i++) {
-		var sqlSelect = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer"
-		con.query(sqlSelect, function(err, result) {
-			if (err) throw err;
-			checkExists = result[0].answer;
+var sqlExists;
+function existsQuery(){
+	return new Promise((resolve, rejects)=>{
+		con.query(sqlExists, function(err, result) {
+			if (err) return rejects(err);
+			setTimeout(() => {
+				return resolve(result[0].answer);
+			}, 200);
 		})
+	})
+}
 
-		setTimeout(() => {
-			if(checkExists==0){
-				var sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";  
-				con.query(sql, function (err) {  
-					if (err) throw err;  
-					console.log("1 record inserted");  
-				}); 
-			}else if(checkExists==1){
-				//todo update only if the delay has changed 
-				var updateSQL= "UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
-				con.query(updateSQL, function(err){
-					if(err) throw err;
-					console.log("1 record updated");
-				})
+var sqlDelayDifference;
+function delayQuery(){
+	return new Promise((resolve, rejects)=>{
+		con.query(sqlDelayDifference, function(err, result){
+			if(err) return rejects(err)
+			if (result[0].delay !== undefined) {
+				setTimeout(() => {
+					return resolve(result[0].delay);
+				}, 200);
+			} else {
+				return resolve(-1);
 			}
-		}, 200);
+		})
+	})
+}
+
+var sql;
+function insertQuery(){
+	return new Promise((resolve, rejects)=>{
+		con.query(sql, function (err) {  
+			if (err) return rejects(err);  
+			return resolve("1 record inserted");  
+		});
+	})
+}
+
+var updateSQL;
+function updateQuery(){
+	return new Promise((resolve, rejects)=>{
+		con.query(updateSQL, function(err){
+			if(err) return rejects(err);
+			return resolve("1 record updated");
+		})
+	})
+}
+
+//Inserts into the database 
+async function sendToDatabase(){
+	
+	var checkExists;
+	
+	var delayInDB;
+
+	//todo edit checkexists if else and sql request
+	for (let i = 0; i < trains.length; i++) {
+
+		sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
+		sqlDelayDifference = "SELECT * FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";
+		sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
+		updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
+
+		checkExists = await existsQuery();
+			if(checkExists == 0){
+				console.log(await insertQuery());
+			}else if(checkExists == 1){
+				//todo make the program wait to get the delayInDB value				
+				//!settimeout stuck in loop, so delayindb doesn't update
+			delayInDB = await delayQuery();
+				if(delayInDB !== trains[i].delay){
+					if(delayInDB !== undefined || delayInDB === -1){ 
+						console.log(await updateQuery());
+					}
+					else{
+						continue;
+					}
+				}
+			}
 		}
 }
 

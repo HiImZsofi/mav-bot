@@ -45,13 +45,10 @@ function delayQuery(){
 	return new Promise((resolve, rejects)=>{
 		con.query(sqlDelayDifference, function(err, result){
 			if(err) return rejects(err)
-			if (result[0].delay !== undefined) { //!the error gets thrown here
-				setTimeout(() => {
-					return resolve(result[0].delay);
-				}, 200);
-			} else {
-				return resolve(-1);
-			}
+			setTimeout(() => {
+				
+				return resolve(result[0].delay);
+			}, 200);
 		})
 	})
 }
@@ -85,9 +82,10 @@ async function sendToDatabase(){
 
 	//todo edit checkexists if else and sql request
 	for (let i = 0; i < trains.length; i++) {
+		//todo check for undefined and continue of so
 
 		sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
-		sqlDelayDifference = "SELECT * FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";
+		sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";
 		sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
 		updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
 
@@ -95,15 +93,7 @@ async function sendToDatabase(){
 			if(checkExists == 0){
 				console.log(await insertQuery());
 			}else if(checkExists == 1){
-			delayInDB = await delayQuery();
-				if(delayInDB !== trains[i].delay){
-					if(delayInDB !== undefined || delayInDB === -1){ 
-						console.log(await updateQuery());
-					}
-					else{
-						continue;
-					}
-				}
+				console.log(await updateQuery());
 			}
 		}
 }

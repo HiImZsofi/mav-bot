@@ -84,18 +84,24 @@ async function sendToDatabase(){
 	for (let i = 0; i < trains.length; i++) {
 		//todo check for undefined and continue of so
 
-		sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
-		sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";
-		sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
-		updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
-
-		checkExists = await existsQuery();
-			if(checkExists == 0){
-				console.log(await insertQuery());
-			}else if(checkExists == 1){
-				console.log(await updateQuery());
+		if(trains[i].delay !== undefined){
+			sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
+			sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";
+			sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
+			updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
+	
+			checkExists = await existsQuery();
+				if(checkExists == 0){
+					console.log(await insertQuery());
+				}else if(checkExists == 1){
+					console.log(await updateQuery());
+				}
+			}
+			else{
+				continue;
 			}
 		}
+
 }
 
 //Call the required functions

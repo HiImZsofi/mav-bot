@@ -80,10 +80,7 @@ async function sendToDatabase(){
 	
 	//var delayInDB;
 
-	//todo edit checkexists if else and sql request
 	for (let i = 0; i < trains.length; i++) {
-		//todo check for undefined and continue of so
-
 		if(trains[i].delay !== undefined){
 			sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
 			//sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";

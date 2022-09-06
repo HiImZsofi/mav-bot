@@ -33,9 +33,7 @@ function existsQuery(){
 	return new Promise((resolve, rejects)=>{
 		con.query(sqlExists, function(err, result) {
 			if (err) return rejects(err);
-			setTimeout(() => {
-				return resolve(result[0].answer);
-			}, 200);
+			return resolve(result[0].answer);
 		})
 	})
 }
@@ -62,7 +60,7 @@ function updateQuery(){
 	})
 }
 
-//Inserts into the database 
+//Interacts with the database
 async function sendToDatabase(){
 	var checkExists;
 

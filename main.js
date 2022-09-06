@@ -40,19 +40,6 @@ function existsQuery(){
 	})
 }
 
-// var sqlDelayDifference;
-// function delayQuery(){
-// 	return new Promise((resolve, rejects)=>{
-// 		con.query(sqlDelayDifference, function(err, result){
-// 			if(err) return rejects(err)
-// 			setTimeout(() => {
-				
-// 				return resolve(result[0].delay);
-// 			}, 200);
-// 		})
-// 	})
-// }
-
 var sql;
 function insertQuery(){
 	return new Promise((resolve, rejects)=>{
@@ -75,10 +62,7 @@ function updateQuery(){
 
 //Inserts into the database 
 async function sendToDatabase(){
-	
 	var checkExists;
-	
-	//var delayInDB;
 
 	for (let i = 0; i < trains.length; i++) {
 		if(trains[i].delay !== undefined){
@@ -98,7 +82,6 @@ async function sendToDatabase(){
 				continue;
 			}
 		}
-
 }
 
 //Call the required functions

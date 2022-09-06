@@ -1,9 +1,7 @@
 //Imports
-import { rejects } from 'assert';
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 import fetch from "node-fetch";
-import { resolve } from 'path';
 const { get, type } = require('jquery');
 var mysql = require('mysql');
 
@@ -14,6 +12,12 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
+//Connect to the database
+con.connect(function(err) {
+	if (err) throw err;
+	console.log("Connected!");
+});
+
 //Stores data fetched from the API
 let trains;
 
@@ -21,11 +25,6 @@ let trains;
 async function fetchData(){
 	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
 	trains = await res.json();
-
-	con.connect(function(err) {
-		if (err) throw err;
-		console.log("Connected!");
-	});
 }
 
 var sqlExists;
@@ -70,7 +69,7 @@ async function sendToDatabase(){
 			//sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";
 			sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
 			updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
-	
+
 			checkExists = await existsQuery();
 				if(checkExists == 0){
 					console.log(await insertQuery());

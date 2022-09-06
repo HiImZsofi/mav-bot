@@ -27,6 +27,7 @@ async function fetchData(){
 	trains = await res.json();
 }
 
+//Checks if the data already exists in the database
 var sqlExists;
 function existsQuery(){
 	return new Promise((resolve, rejects)=>{
@@ -39,6 +40,7 @@ function existsQuery(){
 	})
 }
 
+//Inserts new row into the database
 var sql;
 function insertQuery(){
 	return new Promise((resolve, rejects)=>{
@@ -49,6 +51,7 @@ function insertQuery(){
 	})
 }
 
+//Updates the already existing rows in the database
 var updateSQL;
 function updateQuery(){
 	return new Promise((resolve, rejects)=>{
@@ -64,12 +67,14 @@ async function sendToDatabase(){
 	var checkExists;
 
 	for (let i = 0; i < trains.length; i++) {
+		//Checks if the delay value from the API is undefined
 		if(trains[i].delay !== undefined){
 			sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
 			//sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID='"+trains[i].train_number+"'";
 			sql = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
 			updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
 
+			//Checks if it should update or insert into the database
 			checkExists = await existsQuery();
 				if(checkExists == 0){
 					console.log(await insertQuery());

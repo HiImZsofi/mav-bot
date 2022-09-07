@@ -20,5 +20,6 @@ con.query("USE mavdelays;", function(err){
 con.query("RENAME TABLE delays TO "+date+";", function(err){
     if(err) throw err;
     console.log("Table archived");
+    con.end();
     process.exit();
 })

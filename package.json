@@ -1,24 +1,27 @@
 {
-  
+  
     "type": "module",
-  
+  
     "dependencies": {
-  
-      
+  
+      
     "jquery": "^3.6.1",
-  
-      
+  
+      
     "mysql": "^2.18.1",
-  
-      
+  
+      
+    "node": "^18.8.0",
+  
+      
     "node-fetch": "^3.2.10"
-  
+  
     },
-  
+  
     "devDependencies": {
-  
-      
+  
+      
     "@types/jquery": "^3.5.14"
-  
+  
     }
 }

@@ -9,7 +9,6 @@ mydb = mysql.connector.connect(
 
 print(mydb)
 obj = mydb.cursor();
-obj.execute("SELECT * FROM mavdelays.delays WHERE trainID = 5512407");
+obj.execute("SELECT SUM(delay) FROM mavdelays.delays;");
 result= obj.fetchall()
-for row in result:
-    print(row)
+print(result)

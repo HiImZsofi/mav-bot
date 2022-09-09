@@ -7,8 +7,9 @@ mydb = mysql.connector.connect(
 	port = 3306
 )
 
-print(mydb)
+#print(mydb)
 obj = mydb.cursor();
 obj.execute("SELECT SUM(delay) FROM mavdelays.delays;");
 result= obj.fetchall()
-print(result)
+#print(result)
+

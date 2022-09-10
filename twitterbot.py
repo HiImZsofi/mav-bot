@@ -24,14 +24,15 @@ mydb = mysql.connector.connect(
 obj = mydb.cursor()
 obj.execute("SELECT SUM(delay) FROM mavdelays.delays;")
 result = obj.fetchall()
+tweetMessage = "A MÁV ma " + str(result[0][0]) + " percet késett összesen."
 
 # Tweet out results function
 def tweet():
-    api.update_status(result)
-    # print("szia")
+    api.update_status(tweetMessage)
+
 
 # Schedule tweet() call
-schedule.every().day.at("20:16").do(tweet)
+schedule.every().day.at("12:49").do(tweet)
 while True:
     schedule.run_pending()
     time.sleep(1)

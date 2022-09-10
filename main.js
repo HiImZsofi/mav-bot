@@ -88,6 +88,6 @@ async function sendToDatabase(){
 
 //Call the required functions
 fetchData();
-setTimeout(() => {
+setInterval(() => {
 	sendToDatabase();
 },10000);

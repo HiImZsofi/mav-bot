@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import tweepy
 import schedule
 import time
@@ -20,19 +21,22 @@ mydb = mysql.connector.connect(
     port=3306
 )
 
+
 # Get summed up delay value from the database
-obj = mydb.cursor()
-obj.execute("SELECT SUM(delay) FROM mavdelays.delays;")
-result = obj.fetchall()
-tweetMessage = "A MÁV ma " + str(result[0][0]) + " percet késett összesen."
+def sumQuery():
+    obj = mydb.cursor()
+    obj.execute("SELECT SUM(delay) FROM mavdelays.delays;")
+    result = obj.fetchall()
+    tweetMessage = "A MÁV ma " + str(result[0][0]) + " percet késett összesen."
+    return tweetMessage
 
 # Tweet out results function
 def tweet():
-    api.update_status(tweetMessage)
+    api.update_status(sumQuery())
 
 
 # Schedule tweet() call
-schedule.every().day.at("12:49").do(tweet)
+schedule.every().day.at("23:55").do(tweet)
 while True:
     schedule.run_pending()
     time.sleep(1)

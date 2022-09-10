@@ -104,7 +104,9 @@ async function sendToDatabase(){
 }
 
 //Call the required functions
-fetchData();
+setInterval(() => {
+	fetchData();
+}, 5000);
 setInterval(() => {
 	sendToDatabase();
 },10000);

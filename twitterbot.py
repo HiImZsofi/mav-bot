@@ -1,5 +1,4 @@
 import tweepy
-#from sum import result
 import schedule
 import time 
 import mysql.connector

@@ -41,7 +41,7 @@ function existsQuery(){
 	})
 }
 
-//! not working
+//Gets current delay value from the database
 let sqlDelayDifference;
 function shouldUpdateQuery(){
 	return new Promise((resolve, rejects)=>{
@@ -91,8 +91,8 @@ async function sendToDatabase(){
 			checkExists = await existsQuery();
 			if(checkExists == 0){
 				console.log(await insertQuery());
-			}else if(checkExists === 1){ //! second part of if condition not working
-				shouldUpdate = await shouldUpdateQuery(); //! not working
+			}else if(checkExists === 1){
+				shouldUpdate = await shouldUpdateQuery();
 				if (shouldUpdate - trains[i].delay != 0) {
 					console.log(await updateQuery());
 				}

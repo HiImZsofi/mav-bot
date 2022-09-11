@@ -1,9 +1,7 @@
 //Imports
-import { rejects } from 'assert';
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 import fetch from "node-fetch";
-import { resolve } from 'path';
 const { get, type } = require('jquery');
 var mysql = require('mysql');
 

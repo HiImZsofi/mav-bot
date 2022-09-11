@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import tweepy
 import schedule
 import time
@@ -29,6 +28,7 @@ def sumQuery():
     result = obj.fetchall()
     tweetMessage = "A MÁV ma " + str(result[0][0]) + " percet késett összesen."
     return tweetMessage
+
 
 # Tweet out results function
 def tweet():

@@ -37,7 +37,7 @@ def tweet():
 
 
 # Schedule tweet() call
-schedule.every().day.at("23:55").do(tweet)
+schedule.every().day.at("22:00").do(tweet)
 while True:
     schedule.run_pending()
     time.sleep(1)

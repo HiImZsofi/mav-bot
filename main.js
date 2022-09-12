@@ -25,7 +25,7 @@ let trains;
 async function fetchData(){
 	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
 	trains = await res.json();
-	console.log("Fetched")
+	console.log("Fetched");
 }
 
 //Checks if the data already exists in the database

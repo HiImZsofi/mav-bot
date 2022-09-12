@@ -10,16 +10,16 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-let today=new Date();
-let date=String(today.getFullYear())+"_"+String(today.getMonth())+"_"+String(today.getDay());
+let today = new Date();
+let date = today.toISOString().split('T')[0];
 
 con.query("USE mavdelays;", function(err){
     if(err) throw err;
 })
 
-con.query("RENAME TABLE delays TO "+date+";", function(err){
+con.query("RENAME TABLE delays TO `" + date + "`;", function(err){
     if(err) throw err;
-    console.log("Table archived");
+    console.log("Table archived as " + date);
     con.end();
     process.exit();
 })

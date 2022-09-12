@@ -11,7 +11,7 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-cron.schedule('35 12 * * *', () => {
+cron.schedule('01 22 * * *', () => {
     var today = new Date();
     var date = today.toISOString().split('T')[0];
     

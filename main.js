@@ -18,14 +18,12 @@ con.connect(function(err) {
 	console.log("Connected!");
 });
 
-//Stores data fetched from the API
-let trains;
-
 //Fetches data from api and stores it in a variable
 async function fetchData(){
 	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
-	trains = await res.json();
-	console.log("Fetched");
+	var trainsList = await res.json();
+	console.log("Data fetched");
+	return trainsList;
 }
 
 //Checks if the data already exists in the database
@@ -76,6 +74,7 @@ function updateQuery(){
 async function sendToDatabase(){
 	var checkExists;
 	var shouldUpdate;
+	var trains = await fetchData();
 
 	for (let i = 0; i < trains.length; i++) {
 		//Checks if the delay value from the API is undefined
@@ -104,8 +103,5 @@ async function sendToDatabase(){
 
 //Call the required functions
 setInterval(() => {
-	fetchData();
-}, 5000);
-setInterval(() => {
-	sendToDatabase();
+	sendToDatabase()
 },10000);

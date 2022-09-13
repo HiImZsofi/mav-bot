@@ -31,12 +31,20 @@ def sumQuery():
     return tweetMessage
 
 
+def clearTable():
+    obj = mydb.cursor()
+    obj.execute("DROP TABLE mavdelays.delays;")
+    obj.execute(
+        "CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT, time TIMESTAMP);")
+    obj.fetchall()
+
+
 # Tweet out results function
 def tweet():
     api.update_status(sumQuery())
+    clearTable()
 
-
-# Schedule tweet() call
+#Schedule tweet() call
 schedule.every().day.at("22:00").do(tweet)
 while True:
     schedule.run_pending()

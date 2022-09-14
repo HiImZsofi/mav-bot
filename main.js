@@ -43,6 +43,7 @@ function shouldUpdateQuery(){
 	return new Promise((resolve, rejects)=>{
 		con.query(sqlDelayDifference, function(err, result) {
 			if(err) return rejects(err);
+			if(result[0].delay !== undefined)
 			return resolve(result[0].delay);
 		})
 	})
@@ -76,29 +77,30 @@ async function sendToDatabase(){
 	var shouldUpdate;
 	var trains = await fetchData();
 
-	for (let i = 0; i < trains.length; i++) {
-		//Checks if the delay value from the API is undefined
-		if(trains[i].delay !== undefined){
-			sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
-			sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"'";
-			insertSQL = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
-			updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
+	if(trains.length !== undefined){
+		for (let i = 0; i < trains.length; i++) {
+			//Checks if the delay value from the API is undefined
+			if(trains[i].delay !== undefined){
+				sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
+				sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"'";
+				insertSQL = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
+				updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
 
-			//Checks if it should update or insert into the database
-			checkExists = await existsQuery();
-			if(checkExists == 0){
-				console.log(await insertQuery());
-			}else if(checkExists === 1){
-				shouldUpdate = await shouldUpdateQuery();
-				if (shouldUpdate - trains[i].delay != 0) {
-					console.log(await updateQuery());
+				//Checks if it should update or insert into the database
+				checkExists = await existsQuery();
+				if(checkExists == 0){
+					console.log(await insertQuery());
+				}else if(checkExists === 1){
+					shouldUpdate = await shouldUpdateQuery();
+					if (shouldUpdate - trains[i].delay != 0) {
+						console.log(await updateQuery());
+					}
 				}
-			}
-			}
-			else{
+			}else{
 				continue;
 			}
 		}
+	}
 }
 
 //Call the required functions

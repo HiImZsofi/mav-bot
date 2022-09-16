@@ -1,9 +1,8 @@
 # Imports
 import tweepy
-import schedule
-import time
 import mysql.connector
 import config
+
 # Authenticate to Twitter
 auth = tweepy.OAuthHandler(config.consumer_token, config.consumer_secret)
 auth.set_access_token(config.access_token, config.access_token_secret)
@@ -18,7 +17,6 @@ mydb = mysql.connector.connect(
     password="",
     port=3306
 )
-
 
 # Get summed up delay value from the database
 def sumQuery():
@@ -41,10 +39,3 @@ def clearTable():
 def tweet():
     api.update_status(sumQuery())
     clearTable()
-
-
-# Schedule tweet() call
-schedule.every().day.at("22:01").do(tweet)
-while True:
-    schedule.run_pending()
-    time.sleep(1)

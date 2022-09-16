@@ -1,9 +1,9 @@
 {
 	"type": "module",
 	"scripts": {
-		"setup": "node ./initialStart.js",
-		"start": "node ./main.js",
-		"archive": "node ./archiveTable.js"
+		"setup": "node src/initialStart.js",
+		"start": "node src/main.js",
+		"archive": "node src/archiveTable.js"
 	},
 	"dependencies": {
 		"jquery": "^3.6.1",

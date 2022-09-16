@@ -1,14 +1,12 @@
-#Imports
+# Imports
 import tweepy
 import schedule
 import time
 import mysql.connector
-
+import config
 # Authenticate to Twitter
-auth = tweepy.OAuthHandler("tiOxv4JZtUPA3GqPwgleFnUgH",
-                           "maPuNX6HZscOhodrwc8lpp5tiMVHGbuGzs5HP6JQ13JOVhqMby")
-auth.set_access_token("1567913293381091331-lJTkqqYBkVR79eGMzi3FB8bNkGBjFS",
-                      "831xsauNmzfyDDAZ2quV0AsaCJU80B0j0hYhjqmFTH6P9")
+auth = tweepy.OAuthHandler(config.consumer_token, config.consumer_secret)
+auth.set_access_token(config.access_token, config.access_token_secret)
 
 # Create API object
 api = tweepy.API(auth)
@@ -44,8 +42,9 @@ def tweet():
     api.update_status(sumQuery())
     clearTable()
 
-#Schedule tweet() call
-schedule.every().day.at("22:00").do(tweet)
+
+# Schedule tweet() call
+schedule.every().day.at("22:01").do(tweet)
 while True:
     schedule.run_pending()
     time.sleep(1)

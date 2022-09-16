@@ -1,3 +1,5 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
 var mysql = require('mysql');
 
 export var con = mysql.createConnection({

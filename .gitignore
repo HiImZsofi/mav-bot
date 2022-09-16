@@ -1,5 +1,6 @@
-#Api keys
+#Secure information
 config.py
+database.js
 
 # Logs
 logs

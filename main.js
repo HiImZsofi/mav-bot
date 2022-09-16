@@ -3,14 +3,7 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 import fetch from "node-fetch";
 const { get, type } = require('jquery');
-var mysql = require('mysql');
-
-var con = mysql.createConnection({
-	host: "127.0.0.1",
-	user: "root",
-	password: "",
-	port: 3306
-});
+import { con } from './database.js'
 
 //Connect to the database
 con.connect(function(err) {
@@ -20,7 +13,7 @@ con.connect(function(err) {
 
 //Fetches data from api and stores it in a variable
 async function fetchData(){
-	const res = await fetch('http://apiv2.oroszi.net/elvira/maps')
+	const res = await fetch('http://apiv2.oroszi.net/elvira/maps', {'Content-Type': 'application/json'})
 	var trainsList = await res.json();
 	console.log("Data fetched");
 	return trainsList;
@@ -43,7 +36,7 @@ function shouldUpdateQuery(){
 	return new Promise((resolve, rejects)=>{
 		con.query(sqlDelayDifference, function(err, result) {
 			if(err) return rejects(err);
-			if(result[0].delay !== undefined)
+			if(result !== undefined && result[0] !== undefined && result[0].delay !== undefined)
 			return resolve(result[0].delay);
 		})
 	})

@@ -1,14 +1,7 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const { get, type } = require('jquery');
-var mysql = require('mysql');
-
-var con = mysql.createConnection({
-	host: "127.0.0.1",
-	user: "root",
-	password: "",
-	port: 3306
-});
+import { con } from './database.js'
 
 con.connect(function(err) {
     if (err) throw err;

@@ -11,23 +11,21 @@ var con = mysql.createConnection({
 	port: 3306
 });
 
-cron.schedule('01 22 * * *', () => {
-    var today = new Date();
-    var date = today.toISOString().split('T')[0];
-    
-    con.query("USE mavdelays;", function(err){
-        if(err) throw err;
-    })
-    
-    con.query("RENAME TABLE delays TO `" + date + "`;", function(err){
-        if(err) throw err;
-        console.log("Table archived as " + date);
-    })
+var today = new Date();
+var date = today.toISOString().split('T')[0];
 
-    con.query("CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT, time TIMESTAMP)", function(err){
-        if(err) throw err;
-        console.log("Table created");
-        con.end();
-        process.exit();
-    });
+con.query("USE mavdelays;", function(err){
+    if(err) throw err;
+})
+
+con.query("RENAME TABLE delays TO `" + date + "`;", function(err){
+    if(err) throw err;
+    console.log("Table archived as " + date);
+})
+
+con.query("CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT, time TIMESTAMP)", function(err){
+    if(err) throw err;
+    console.log("Table created");
+    con.end();
+    process.exit();
 });

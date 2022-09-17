@@ -3,7 +3,8 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 import fetch from "node-fetch";
 const { get, type } = require('jquery');
-import { con } from '../srcServer/database.js'
+import { con } from './database.js'
+
 
 //Connect to the database
 con.connect(function(err) {

@@ -1,7 +1,7 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url);
 const { get, type } = require('jquery');
-import { con } from '../srcServer/database.js'
+import { con } from './database.js'
 
 con.connect(function(err) {
     if (err) throw err;

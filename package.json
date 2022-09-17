@@ -6,6 +6,7 @@
 		"archive": "node src/archiveTable.js"
 	},
 	"dependencies": {
+		"dotenv": "^16.0.2",
 		"jquery": "^3.6.1",
 		"mysql": "^2.18.1",
 		"node": "^18.8.0",

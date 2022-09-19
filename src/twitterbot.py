@@ -36,9 +36,6 @@ def sumQuery():
 
 
 def tweet():
-    print(sumQuery())
-    # api.update_status(sumQuery())
-    # clearTable()
-
+    api.update_status(sumQuery())
 
 tweet()

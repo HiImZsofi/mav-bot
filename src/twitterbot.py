@@ -5,6 +5,7 @@ import mysql.connector
 import config
 from dotenv import load_dotenv
 
+#Load envionmental variables
 load_dotenv()
 
 # Authenticate to Twitter

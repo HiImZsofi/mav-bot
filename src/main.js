@@ -75,10 +75,10 @@ async function sendToDatabase(){
 		for (let i = 0; i < trains.length; i++) {
 			//Checks if the delay value from the API is undefined
 			if(trains[i].delay !== undefined){
-				sqlExists = "SELECT EXISTS(SELECT * FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
-				sqlDelayDifference = "SELECT delay FROM mavdelays.delays WHERE trainID = '"+trains[i].train_number+"'";
-				insertSQL = "INSERT INTO mavdelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
-				updateSQL="UPDATE mavdelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
+				sqlExists = "SELECT EXISTS(SELECT * FROM MavDelays.delays WHERE trainID = '"+trains[i].train_number+"') AS answer;"
+				sqlDelayDifference = "SELECT delay FROM MavDelays.delays WHERE trainID = '"+trains[i].train_number+"'";
+				insertSQL = "INSERT INTO MavDelays.delays (trainID, delay, time) VALUES ('"+trains[i].train_number+"',"+trains[i].delay+", CURRENT_TIMESTAMP)";
+				updateSQL="UPDATE MavDelays.delays SET delay = "+trains[i].delay+", time = CURRENT_TIMESTAMP WHERE trainID = '"+trains[i].train_number+"';";
 
 				//Checks if it should update or insert into the database
 				checkExists = await existsQuery();

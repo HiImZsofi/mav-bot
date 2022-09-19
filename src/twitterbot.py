@@ -21,21 +21,24 @@ mydb = mysql.connector.connect(
 # Get summed up delay value from the database
 def sumQuery():
     obj = mydb.cursor()
-    obj.execute("SELECT SUM(delay) FROM mavdelays.delays;")
+    obj.execute("SELECT SUM(delay) FROM MavDelays.delays;")
     result = obj.fetchall()
     tweetMessage = "A MÁV ma " + str(result[0][0]) + " percet késett összesen."
     return tweetMessage
 
 
-def clearTable():
-    obj = mydb.cursor()
-    obj.execute("DROP TABLE mavdelays.delays;")
-    obj.execute(
-        "CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT, time TIMESTAMP);")
-    obj.fetchall()
+# def clearTable():
+#     obj = mydb.cursor()
+#     obj.execute("DROP TABLE mavdelays.delays;")
+#     obj.execute(
+#         "CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT, time TIMESTAMP);")
+#     obj.fetchall()
 
 
 # Tweet out results function
 def tweet():
     api.update_status(sumQuery())
-    clearTable()
+    #clearTable()
+
+
+tweet()

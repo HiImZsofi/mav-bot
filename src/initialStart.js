@@ -13,7 +13,7 @@ con.connect(function(err) {
     console.log("Database created");
 });*/
 
-con.query("CREATE TABLE mavdelays.delays (trainID VARCHAR(255), delay INT, time TIMESTAMP)", function(err, result){
+con.query("CREATE TABLE delays (trainID VARCHAR(255), delay INT, time TIMESTAMP)", function(err, result){
 	if(err) throw err;
 	console.log("Table created");
 	con.end();

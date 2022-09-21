@@ -17,7 +17,7 @@ api = tweepy.API(auth)
 
 # Connect to database
 mydb = mysql.connector.connect(
-    host="127.0.0.1",
+    host=os.getenv("DB_HOST"),
     user=os.getenv("DB_USER"),
     password=os.getenv("DB_PASSWORD"),
     port=os.getenv("DB_PORT")
@@ -37,6 +37,7 @@ def sumQuery():
 
 
 def tweet():
-    api.update_status(sumQuery())
+    #api.update_status(sumQuery())
+    print(sumQuery())
 
 tweet()

@@ -24,6 +24,7 @@ mydb = mysql.connector.connect(
 )
 
 obj = mydb.cursor()
+
 # Get summed up delay value from the database
 
 
@@ -32,6 +33,8 @@ def sumQuery():
     result = obj.fetchall()
     tweetMessage = "A MÁV ma " + str(result[0][0]) + " percet késett összesen."
     return tweetMessage
+
+# Empty tables
 
 
 def emptyTable():
@@ -46,6 +49,5 @@ def tweet():
     # api.update_status(sumQuery())
     print(sumQuery())
     emptyTable()
-
 
 tweet()

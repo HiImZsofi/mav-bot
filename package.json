@@ -3,7 +3,8 @@
 	"scripts": {
 		"setup": "node src/initialStart.js",
 		"start": "node src/main.js",
-		"archive": "node src/archiveTable.js"
+		"archive": "node src/archiveTable.js",
+		"bot": "python src/twitterbot.py"
 	},
 	"dependencies": {
 		"dotenv": "^16.0.2",

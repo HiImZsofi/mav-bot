@@ -45,6 +45,7 @@ def emptyTable():
 def tweet():
     api.update_status(sumQuery())
     print(sumQuery())
+    emptyTable()
 
 schedule.every().day.at("18:00").do(tweet)
 

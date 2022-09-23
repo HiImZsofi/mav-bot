@@ -1,3 +1,0 @@
-# START CRON JOB
-20 18 * * * python twitterbot.py > /proc/1/fd/1 2>/proc/1/fd/2
-# END CRON JOB

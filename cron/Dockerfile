@@ -10,4 +10,4 @@ WORKDIR /app
 COPY . .
 
 # run crond as main process of container
-CMD ["python", "-u", "/app/src/twitterbot.py"]
+CMD ["python", "-u", "src/twitterbot.py"]

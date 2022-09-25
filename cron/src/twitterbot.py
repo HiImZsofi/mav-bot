@@ -31,7 +31,7 @@ obj = mydb.cursor()
 def sumQuery():
     obj.execute("SELECT SUM(delay) FROM MavDelays.delays;")
     result = obj.fetchall()
-    tweetMessage = "A MÁV vonatai az elmúlt 24 órában összesen "+str(result[0][0])+" 13 851 percet késtek."
+    tweetMessage = "A MÁV vonatai az elmúlt 24 órában összesen "+str(result[0][0])+" percet késtek."
     return tweetMessage
 
 
@@ -46,7 +46,7 @@ def tweet():
     api.update_status(sumQuery())
     print(sumQuery())
 
-schedule.every().day.at("18:00").do(tweet)
+schedule.every().day.at('16:00').do(tweet)
 
 while True:
     schedule.run_pending()

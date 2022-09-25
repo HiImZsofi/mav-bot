@@ -43,7 +43,7 @@ def emptyTable():
 
 # Tweet out results function
 def tweet():
-    #api.update_status(sumQuery())
+    api.update_status(sumQuery())
     print(sumQuery())
     emptyTable()
 

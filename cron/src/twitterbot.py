@@ -1,4 +1,5 @@
 # Imports
+from cgi import print_arguments
 import os
 import tweepy
 import mysql.connector
@@ -27,11 +28,15 @@ mydb = mysql.connector.connect(
 
 obj = mydb.cursor()
 
+
 # Get summed up delay value from the database
 def sumQuery():
     obj.execute("SELECT SUM(delay) FROM MavDelays.delays;")
     result = obj.fetchall()
     tweetMessage = "A MÁV vonatai az elmúlt 24 órában összesen "+str(result[0][0])+" percet késtek."
+    obj.execute("SELECT AVG(delay) FROM MavDelays.delays;")
+    result = obj.fetchall()
+    tweetMessage+="\nA vonatonkénti átlagos késés "+str("{:.2f}".format(result[0][0]))+" perc volt."
     return tweetMessage
 
 

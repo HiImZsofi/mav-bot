@@ -1,5 +1,4 @@
 # Imports
-from cgi import print_arguments
 import os
 import tweepy
 import mysql.connector

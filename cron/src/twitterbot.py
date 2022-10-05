@@ -36,7 +36,7 @@ def sumQuery():
     tweetMessage = "A MÁV vonatai az elmúlt 24 órában összesen "+str(result[0][0])+" percet késtek."
     obj.execute("SELECT AVG(delay) FROM MavDelays.delays;")
     result = obj.fetchall()
-    tweetMessage+="\nA vonatonkénti átlagos késés "+str("{:.2f}".format(result[0][0]))+" perc volt."
+    tweetMessage+="\nA vonatonkénti átlagos késés "+str("{:.2f}".format(result[0][0])).replace('.',',')+" perc volt."
     return tweetMessage
 
 
